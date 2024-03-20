@@ -3,6 +3,8 @@ import dotenv from 'dotenv'
 import databaseConnection from './config/db.js'
 import cookieParser from 'cookie-parser';
 import userRouter from './routes/userRoute.js';
+import tweetRoute from './routes/tweetRoute.js';
+import { IsAuthenticated }  from './config/auth.js'
 dotenv.config({
     path: './.env'
 })
@@ -15,9 +17,11 @@ app.use(express.json());
 app.use(cookieParser())
 
 app.use("/api/v1/user", userRouter)
+app.use("/api/v1/tweet", tweetRoute)
 
 
-app.get('/', (req, res) => {
+
+app.get('/', IsAuthenticated, (req, res) => {
     res.send('Hello World!')
 })
 
